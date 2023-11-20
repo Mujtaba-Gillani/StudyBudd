@@ -1,0 +1,39 @@
+{% extends 'main.html' %} {% block extra_css %}
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #87d1f3, purple);
+  }
+  .center-content {
+    /* Center the content vertically and horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+</style>
+{% endblock extra_css %} {%block content %}
+<div class="center-content">
+  <h1>{{room.name}}</h1>
+</div>
+<p>{{room.description}}</p>
+<div class="comment-wrapper">
+  <h3>Conversation</h3>
+  <hr />
+  {% for message in room_messages %}
+  <div>
+    <small>@{{message.user}} {{message.created|timesince}} ago</small>
+    <p>{{message.body}}</p>
+  </div>
+  {% endfor %}
+</div>
+{% if request.user.is_authenticated %}
+<div class="comment-form">
+  <form method="post" action="">
+    {% csrf_token %}
+    <input type="text" name="body" placeholder="write your message here..  " />
+  </form>
+</div>
+{% endif %} {% endblock content %}
